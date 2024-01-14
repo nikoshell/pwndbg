@@ -11,6 +11,7 @@ on:
       - '!*.md'
   pull_request:
     paths:
+      - '**'
       - '!mkdocs.yml'
       - '!docs/**'
       - '!*.md'
