@@ -26,7 +26,7 @@ fi
 
 exit $exit_code
 EOF
-)
+ip)
 
 if [ -t 1 ]; then
     echo "Install a git hook to automatically lint files before pushing? (y/N)"
@@ -184,10 +184,10 @@ if linux; then
             ;;
     esac
 
-    if [[ -z "${PWNDBG_VENV_PATH}" ]]; then
-        PWNDBG_VENV_PATH="./.venv"
-    fi
-    echo "Using virtualenv from path: ${PWNDBG_VENV_PATH}"
-    PYTHON=${PWNDBG_VENV_PATH}/bin/python
-    ${PYTHON} -m pip install -r dev-requirements.txt
+    # if [[ -z "${PWNDBG_VENV_PATH}" ]]; then
+    #     PWNDBG_VENV_PATH="./.venv"
+    # fi
+    # echo "Using virtualenv from path: ${PWNDBG_VENV_PATH}"
+    # PYTHON=${PWNDBG_VENV_PATH}/bin/python
+    # ${PYTHON} -m pip install -r dev-requirements.txt
 fi

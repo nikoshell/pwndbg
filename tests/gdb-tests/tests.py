@@ -31,8 +31,10 @@ def makeBinaries():
 
 def run_gdb(gdb_args: list[str], env=None, capture_output=True) -> CompletedProcess[str]:
     env = os.environ if env is None else env
+    cmd = ["pwndbg", "--", "--silent", "--nx", "--nh"] + gdb_args + ["--eval-command", "quit"]
+    print("Command:" + ' '.join(cmd))
     return subprocess.run(
-        ["gdb", "--silent", "--nx", "--nh"] + gdb_args + ["--eval-command", "quit"],
+        cmd,
         env=env,
         capture_output=capture_output,
         text=True,
@@ -42,7 +44,7 @@ def run_gdb(gdb_args: list[str], env=None, capture_output=True) -> CompletedProc
 def getTestsList(collect_only: bool, test_name_filter: str) -> list[str]:
     # NOTE: We run tests under GDB sessions and because of some cleanup/tests dependencies problems
     # we decided to run each test in a separate GDB session
-    gdb_args = ["--init-command", GDB_INIT_PATH, "--command", "pytests_collect.py"]
+    gdb_args = ["--command", "pytests_collect.py"]
     result = run_gdb(gdb_args)
     TESTS_COLLECT_OUTPUT = result.stdout
 
@@ -61,7 +63,7 @@ def getTestsList(collect_only: bool, test_name_filter: str) -> list[str]:
 
 
 def run_test(test_case: str, args: argparse.Namespace) -> Tuple[CompletedProcess[str], str]:
-    gdb_args = ["--init-command", GDB_INIT_PATH, "--command", "pytests_launcher.py"]
+    gdb_args = ["--command", "pytests_launcher.py"]
     if args.cov:
         print("Running with coverage")
         gdb_args = [

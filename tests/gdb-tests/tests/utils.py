@@ -5,9 +5,7 @@ import re
 import subprocess
 
 
-def run_gdb_with_script(
-    binary="", core="", stdin_input=None, pybefore=None, pyafter=None, timeout=None
-):
+def run_gdb_with_script(binary="", core="", stdin_input=None, pybefore=None, pyafter=None, timeout=None):
     """
     Runs GDB with given commands launched before and after loading of gdbinit.py
     Returns GDB output.
@@ -15,12 +13,12 @@ def run_gdb_with_script(
     pybefore = ([pybefore] if isinstance(pybefore, str) else pybefore) or []
     pyafter = ([pyafter] if isinstance(pyafter, str) else pyafter) or []
 
-    command = ["gdb", "--silent", "--nx", "--nh"]
+    command = ["pwndbg","--", "--silent", "--nx", "--nh"]
 
     for cmd in pybefore:
         command += ["--eval-command", cmd]
 
-    command += ["--command", "../../gdbinit.py"]
+    command += []
 
     if binary:
         command += [binary]

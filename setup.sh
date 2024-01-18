@@ -21,6 +21,7 @@ osx() {
 install_apt() {
     sudo apt-get update || true
     sudo apt-get install -y git gdb gdbserver python3-dev python3-venv python3-pip python3-setuptools libglib2.0-dev libc6-dbg
+    sudo apt-get install -y pipx
 
     if uname -m | grep x86_64 > /dev/null; then
         sudo dpkg --add-architecture i386 || true
@@ -33,23 +34,27 @@ install_dnf() {
     sudo dnf update || true
     sudo dnf -y install gdb gdb-gdbserver python-devel python3-devel python-pip python3-pip glib2-devel make
     sudo dnf -y debuginfo-install glibc
+    sudo dnf -y install pipx
 }
 
 install_xbps() {
     sudo xbps-install -Su
     sudo xbps-install -Sy gdb gcc python-devel python3-devel python-pip python3-pip glibc-devel make
     sudo xbps-install -Sy glibc-dbg
+    sudo xbps-install -Sy pipx 
+
 }
 
 install_swupd() {
     sudo swupd update || true
-    sudo swupd bundle-add gdb python3-basic make c-basic
+    sudo swupd bundle-add gdb python3-basic make c-basic pipx
 }
 
 install_zypper() {
     sudo zypper mr -e repo-oss-debug || sudo zypper mr -e repo-debug
     sudo zypper refresh || true
     sudo zypper install -y gdb gdbserver python-devel python3-devel python2-pip python3-pip glib2-devel make glibc-debuginfo
+    sudo zypper install -y pipx
 
     if uname -m | grep x86_64 > /dev/null; then
         sudo zypper install -y glibc-32bit-debuginfo || true
@@ -58,6 +63,7 @@ install_zypper() {
 
 install_emerge() {
     emerge --oneshot --deep --newuse --changed-use --changed-deps dev-lang/python dev-python/pip sys-devel/gdb
+    #TODO: add pipx
 }
 
 install_pacman() {
@@ -74,7 +80,7 @@ install_pacman() {
 }
 
 install_freebsd() {
-    sudo pkg install git gdb python py39-pip cmake gmake
+    sudo pkg install git gdb python py39-pip cmake gmake pipx
     which rustc || sudo pkg install rust
 }
 
@@ -105,16 +111,17 @@ done
 
 PYTHON=''
 
-# Check for the presence of the initializer line in the user's ~/.gdbinit file
-if [ -z "$UPDATE_MODE" ] && grep -q '^[^#]*source.*pwndbg/gdbinit.py' ~/.gdbinit; then
-    # Ask the user if they want to proceed and override the initializer line
-    read -p "An initializer line was found in your ~/.gdbinit file. Do you want to proceed and override it? (y/n) " answer
+# # Check for the presence of the initializer line in the user's ~/.gdbinit file
+# if [ -z "$UPDATE_MODE" ] && grep -q '^[^#]*source.*pwndbg/gdbinit.py' ~/.gdbinit; then
+#     # Ask the user if they want to proceed and override the initializer line
+#     read -p "An initializer line was found in your ~/.gdbinit file. Do you want to proceed and override it? (y/n) " answer
+#
+#     # If the user does not want to proceed, exit the script
+#     if [[ "$answer" != "y" ]]; then
+#         exit 0
+#     fi
+# fi
 
-    # If the user does not want to proceed, exit the script
-    if [[ "$answer" != "y" ]]; then
-        exit 0
-    fi
-fi
 
 if linux; then
     distro=$(grep "^ID=" /etc/os-release | cut -d'=' -f2 | sed -e 's/"//g')

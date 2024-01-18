@@ -27,30 +27,12 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     apt-get update && \
     apt-get install -y vim
 
-ADD ./setup.sh /pwndbg/
-ADD ./poetry.lock /pwndbg/
-ADD ./pyproject.toml /pwndbg/
-ADD ./dev-requirements.txt /pwndbg/
-
-# pyproject.toml requires these files, pip install would fail
-RUN touch README.md && mkdir pwndbg && touch pwndbg/empty.py
-
-RUN DEBIAN_FRONTEND=noninteractive ./setup.sh
-
-# Cleanup dummy files
-RUN rm README.md && rm -rf pwndbg
-
-# Comment these lines if you won't run the tests.
-ADD ./setup-dev.sh /pwndbg/
-RUN ./setup-dev.sh
-
 ADD . /pwndbg/
+RUN ./setup.sh
+RUN ./setup-dev.sh
+RUN pip install -r dev-requirements.txt
+# RUN pipx install -f -r dev-requirements.txt
 
 ARG LOW_PRIVILEGE_USER="vscode"
 
-# Add .gdbinit to the home folder of both root and vscode users (if vscode user exists)
-# This is useful for a VSCode dev container, not really for test builds
-RUN if [ ! -f ~/.gdbinit ]; then echo "source /pwndbg/gdbinit.py" >> ~/.gdbinit; fi && \
-    if id -u ${LOW_PRIVILEGE_USER} > /dev/null 2>&1; then \
-        su ${LOW_PRIVILEGE_USER} -c 'if [ ! -f ~/.gdbinit ]; then echo "source /pwndbg/gdbinit.py" >> ~/.gdbinit; fi'; \
-    fi
+# RUN pwndbg
