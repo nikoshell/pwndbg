@@ -10,7 +10,7 @@
 with a focus on features needed by low-level software developers, hardware hackers, 
 reverse-engineers and exploit developers.
 
-It has a boatload of features, see [FEATURES.md](FEATURES.md) and [CHEATSHEET][CHEATSHEET] 
+It has a boatload of features, see [FEATURES.md](https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md) and [CHEATSHEET][CHEATSHEET] 
 (feel free to print it!).
 
 [CHEATSHEET]: https://drive.google.com/file/d/16t9MV8KTFXK7oX_CzXhmDdaVnjT8IYM4/view?usp=drive_link
@@ -206,7 +206,7 @@ pacman -U ./pwndbg-2025.01.20-1-x86_64.pkg.tar.zst
 
 ## What can I do with that?
 
-For further info about features/functionalities, see [FEATURES](FEATURES.md).
+For further info about features/functionalities, see [FEATURES](https://github.com/pwndbg/pwndbg/blob/dev/FEATURES.md).
 
 ## Who?
 
@@ -214,7 +214,7 @@ Pwndbg is an open-source project, maintained by [many contributors](https://gith
 
 Pwndbg was originally created by [Zach Riggle](https://github.com/zachriggle), who is no longer with us. We want to thank Zach for all of his contributions to Pwndbg and the wider security community.
 
-Want to help with development? Read [CONTRIBUTING](.github/CONTRIBUTING.md) or [join our Discord server][discord]!
+Want to help with development? Read [CONTRIBUTING](https://github.com/pwndbg/pwndbg/blob/dev/.github/CONTRIBUTING.md) or [join our Discord server][discord]!
 
 ## How to develop?
 To run tests locally you can do this in docker image, after cloning repo run simply
